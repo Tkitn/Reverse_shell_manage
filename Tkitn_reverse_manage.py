@@ -69,7 +69,8 @@ def transfer(h):
         interactive_flag = slave.interactive_flag
         if(interactive_flag):
             data = socket_fd.recv(2048)
-            sys.stdout.write(data.decode('utf-8'))
+            print(data.decode('utf-8'))
+            #sys.stdout.write(data.decode('utf-8'))
         else:
             break
 
@@ -109,10 +110,11 @@ class Taget():
 
     def interactive_shell(self):
         t = threading.Thread(target=transfer, args=(self.hostname,))
+        t.setDaemon(True)
         t.start()
         try:
             while True:
-                message = input(">>")
+                message = input("")
                 if(message=="back"):
                     self.interactive_flag = False
                     self.sock_target.setblocking(0)
